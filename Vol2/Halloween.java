@@ -1,7 +1,7 @@
 import java.util.Scanner;
 import java.util.LinkedList;
 
-
+//import java.util.*;
 //============================== Graph.java 
 
 class Edge {
@@ -88,15 +88,43 @@ class Graph {
 public class Halloween {
     
 
-    static void analizar(int start, int[] stock, Graph g){
-        int num_stock = stock[start], max_stock = stock[start];
-        int Super_market = start, max_Super_market = start;
-        int[] visited = new int[g.num_vertices()];
+    public static void analizar(int start, int[] stock, Graph g){
+        int max_stock = stock[start];
+        int max_Super_market = start;
+        int k=1;
+        int[] visited = new int[g.num_vertices()+1], verify = new int[g.num_vertices()+1];
 
-        for (int i=0;i<g.num_vertices();i++) visited[i]=0;
+        for (int i=1;i<g.num_vertices()+1;i++) {visited[i]=0; verify[i] = 0;} //inicializar o array visited with 0s
+        verify[k] = start; visited[start] = 1;
+        
+        int h = 1;
+        while (verify[h]!=0) {
+            LinkedList<Edge> tmp = g.adjs_no(verify[h]); //nos  adjacentes
+            
+            for(int i=0;i<tmp.size();i++){
+                int sup_mark = tmp.get(i).endnode(); //indice do no
+                if (visited[sup_mark] == 1) continue;
+                
+                visited[sup_mark] = 1;
+                verify[++k] = sup_mark;
 
+            }
+            h++;
+        }
+        
+        while(k>0){
+            if((stock[verify[k]] == max_stock) && (verify[k] < max_Super_market)){
+                max_Super_market = verify[k];
+                max_stock = stock[verify[k]];
+            }
+            else if (stock[verify[k]] > max_stock){
+                max_stock = stock[verify[k]]; 
+                max_Super_market = verify[k];
+            }
+            k--;
+        }
 
-
+        //respostas
         if (max_stock == 0){
             System.out.println("Impossivel");
         }
@@ -126,22 +154,18 @@ public class Halloween {
             g.insert_new_edge(k,h,0);
             g.insert_new_edge(h,k,0);
         }
-        
-        for (int j=1;j<n_super_mercados+1;j++){
-            LinkedList<Edge> tmp = g.adjs_no(j);
-            System.out.println(tmp);
-            for(int i=0;i<tmp.size();i++){
-                System.out.println(tmp.get(i).endnode());
-            } 
 
-        }
-
-
-        /*
         int n_visitas = in.nextInt();
-        for(int n = 0;n<n_visitas;n++)  
-            analizar(in.nextInt(),quantidade_aboboras,g);
-        */
+        for(int n = 0;n<n_visitas;n++){
+            int inicio = in.nextInt();
+            if (quantidade_aboboras[inicio]>0){
+                System.out.println(inicio);
+            }
+            else{
+                analizar(inicio,quantidade_aboboras,g);
+            }
+        }
+    
         in.close();
     }
 }
