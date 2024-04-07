@@ -2,8 +2,6 @@ import java.util.Scanner;
 import java.util.LinkedList;
 
 //import java.util.*;
-
-
 //============================== Graph.java 
 
 class Edge {
@@ -25,6 +23,11 @@ class Edge {
 
     public void newvalue(int v) {
 	value = v;
+    }
+     
+    @Override
+    public String toString() {
+        return String.valueOf(enode);
     }
 }
 
@@ -87,21 +90,19 @@ class Graph {
 
 
 
-
-
-
 public class MapaSemSentidosUnicos {
 
-    public static int inputGraph_and_lenght(Graph g, Scanner stdin,int[] appear){
+    public static int inputGraph_and_lenght(Graph g, Scanner stdin){
         int dist, i, j, comprimento=0;
         int caminho = stdin.nextInt();
         i = stdin.nextInt();
-        appear[i]++;
         for (int h=1;h<caminho;h++){
             dist = stdin.nextInt();j = stdin.nextInt();
-            appear[j]++;
             comprimento += dist;
-            g.insert_new_edge(i,j,dist);
+            if(g.find_edge(i,j) == null)
+                g.insert_new_edge(i,j,dist);
+            if (g.find_edge(j,i) == null)
+                g.insert_new_edge(j,i,dist);
             i = j;
         }        
         return comprimento;
@@ -115,16 +116,15 @@ public class MapaSemSentidosUnicos {
         int trajetos = stdin.nextInt();
         int nos = stdin.nextInt(); //num de inputs
         Graph g = new Graph(nos);
-        int[] appear = new int[nos+1];
-        for(int i=0;i<nos+1;i++) appear[i]=0;
 
         for (int k = 1; k<=trajetos;k++){
-            int lenght_path = inputGraph_and_lenght(g,stdin,appear);
+            int lenght_path = inputGraph_and_lenght(g,stdin);
             System.out.println("Trajeto "+k+": "+lenght_path);
         }
 
         for (int k = 1; k<=nos; k++){
-            System.out.println("No "+k+": "+appear[k]);
+            //System.out.println("No "+k+": "+g.adjs_no(k));
+            System.out.println("No "+k+": "+g.adjs_no(k).size());
         }
     }
 }
