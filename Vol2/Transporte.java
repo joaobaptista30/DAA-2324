@@ -94,7 +94,7 @@ class Graph {
 
 
 public class Transporte {
-    
+
 
 
     public static void main(String[] args){
@@ -121,15 +121,14 @@ public class Transporte {
             i=in.nextInt();
         }
 
-        //Queue<Integer> caminho = new LinkedList<>();
-        //caminho.add(start);
+
         int[] visited = new int[n_locais+1];
         int[] caminho = new int[n_locais+1];
         caminho[0]=start; i=1; int atual = 0;
+        visited[start] = 1;
 
         while (caminho[atual] != 0) {
-            LinkedList<Edge> nos = g.adjs_no(start);
-            for(Edge no : nos){
+            for(Edge no : g.adjs_no(start)){
                 int point = no.endnode();
                 if(visited[point] == 0){
                     caminho[i++] = point;
@@ -137,32 +136,34 @@ public class Transporte {
                 }
                 if(point == end) break;
             }
-            if (caminho[i]==end) break;
+            if (caminho[--i]==end) break;
             atual++;
         }
+
         System.out.println(Arrays.toString(caminho));
-        
-        if(caminho[--i] == 0) System.out.println("Impossivel");
+        System.out.println(i);
+
+        if(caminho[i] == 0) System.out.println("Impossivel");
 
         else{
             int num_trocos = 0;
             i = atual -1;
-            while (atual != 0) {
+            while (atual >0) {
                 if(g.find_edge(atual, i) != null){
                     num_trocos++;
                     atual = i;
                     i--;
                 }
                 else{
-                    
+
                     i--;
                 } 
-                
+
             }
             System.out.println(num_trocos);
 
         }
-        
+
         in.close();
     }
 }
