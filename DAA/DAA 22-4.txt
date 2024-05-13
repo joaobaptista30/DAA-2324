@@ -1,0 +1,15 @@
+Arvores geradoras c/ peso min/max:
+	alg kruskel?
+	alg prim
+
+caminhos minimos:
+	alg dijkista ?
+(um no S para todos os outros)
+
+caminho capacidade maxima
+	alg Dijkista
+
+caminho minimos (cont..)
+	alg Floyd-wa...
+(todos p/ todos) 
+		complexidade-> teta(|V|^3)
