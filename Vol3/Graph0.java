@@ -1,10 +1,8 @@
 /*-------------------------------------------------------------------*\
-|  Classe para grafos dirigidos pesados                               |
-|     * um único peso (valor do tipo int qualquer)em cada aresta      |
+|  Classe para grafos dirigidos (sem pesos)                           |
 |     * vertices numerados de 1 to |V|.                               |
 |                                                                     |
-|  Class for weighted directed graphs                                 |
-|     * single weight (any value of type int) on each edge            |
+|  Class for directed graphs  (no weghts)                             |
 |     * vertices are labeled from 1 to |V|.                           |
 |                                                                     |
 |   A.P.Tomas, CC2001 (material for the test), DCC-FCUP, 2024         |
@@ -14,28 +12,19 @@
 
 import java.util.LinkedList;
 
-//============================== Graph.java 
+//============================== Graph0.java 
 
 class Edge {
     private int enode;
-    private int value;
     
-    Edge(int endv, int v){
+    Edge(int endv){
 	enode = endv;
-	value = v;
     }
 
     public int endnode() {
 	return enode;
     }
 
-    public int value() {
-	return value;
-    }
-
-    public void newvalue(int v) {
-	value = v;
-    }
 }
 
 
@@ -56,17 +45,17 @@ class Node {
 
 
 /**
- * Defines a Weighted Directed Graph
+ * Defines a Directed Graph
  * Represented by Adjacency list (i.e., an array of lists of edges).
  * Assumes that vertex labels are integers from 1 to n (position 0 not used)
  */
 
 
-class Graph {
+class Graph0 {
     private Node verts[];
     private int nverts, nedges;
 			
-    public Graph(int n) {
+    public Graph0(int n) {
 	nverts = n;
 	nedges = 0;
 	verts  = new Node[n+1];
@@ -87,8 +76,8 @@ class Graph {
 	return verts[i].adjs();
     }
     
-    public void insert_new_edge(int i, int j, int value_ij){
-	verts[i].adjs().addFirst(new Edge(j,value_ij));
+    public void insert_new_edge(int i, int j){
+	verts[i].adjs().addFirst(new Edge(j));
         nedges++;
     }
 
